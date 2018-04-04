@@ -5,6 +5,7 @@ function loadPhones() {
     xhr.send();
 
     xhr.onreadystatechange = function() {
+      xhr.abort();
       if (xhr.readyState != 4) return;
 
       button.innerHTML = 'Готово!';
