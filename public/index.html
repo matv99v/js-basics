@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="app.js" charset="utf-8"></script>
+        <style>
+            .form-formatted {
+                display: flex;
+                flex-direction: column;
+                width: 300px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <h3>HTML form HTTP-requests and js replication</h3>
+        <h4>1. Urlencoded (default) - GET</h4>
+        <section>
+            <form
+                action="/submit/urlencoded"
+                method="GET"
+                name="myFormGet"
+                class="form-formatted"
+            >
+                <input name="name" value="Ivan">
+                <input name="surname" value="Ivanov">
+                <input name="age" value="55">
+                <input type="submit">
+            </form>
+
+            <button onclick="getUrlencoded(myFormGet)">js GET Urlencoded</button>
+        </section>
+
+
+        <h4>2. Urlencoded (default) - POST</h4>
+        <section>
+
+            <form
+                action="/submit/urlencoded"
+                method="POST"
+                name="myFormPostUrlencoded"
+                class="form-formatted"
+            >
+                <input name="name" value="Ivan">
+                <input name="surname" value="Ura">
+                <input name="age" value="22">
+                <input type="submit">
+            </form>
+
+            <button onclick="postUrlencoded(myFormPostUrlencoded)">js POST Urlencoded</button>
+        </section>
+
+        <h4>3. Multipart/form-data - POST</h4>
+        <section>
+
+            <form
+                action="/submit/multipart"
+                method="POST"
+                enctype="multipart/form-data"
+                name="myFormPostMultipart"
+                class="form-formatted"
+            >
+                <input name="name" value="Multi">
+                <input name="surname" value="Ivanov">
+                <input name="age" value="13">
+                <input type="submit">
+            </form>
+
+            <button onclick="postMultipart(myFormPostMultipart)">js POST Multipart</button>
+            <button onclick="postMultipartAlt(myFormPostMultipart)">js POST Multipart Alt</button>
+        </section>
+
+        <h4>4. Text-plain - POST</h4>
+        <section>
+
+            <form
+                action="/submit/textplain"
+                method="POST"
+                enctype="text/plain"
+                name="myFormTextPlain"
+                class="form-formatted"
+            >
+                <input name="name" value="Ivan">
+                <input name="surname" value="Texty">
+                <input name="age" value="25">
+                <input type="submit">
+            </form>
+
+            <button onclick="postTextplain(myFormTextPlain)">js POST Text-plain</button>
+        </section>
+
+        <h4>5. JSON - POST</h4>
+        <section>
+
+            <!-- Even though HTML form has "application/json" encryption type,
+            it uses default "urlencoded", because HTML form supports only three types:
+            1. application/x-www-form-urlencoded (default)
+            2. multipart/form-data
+            3. text/plain -->
+
+            <form
+                action="/submit/json"
+                method="POST"
+                enctype="application/json"
+                name="myFormJson"
+                class="form-formatted"
+            >
+                <input name="name" value="Kolya">
+                <input name="surname" value="Json">
+                <input name="age" value="32">
+                <input type="submit">
+            </form>
+
+            <button onclick="postJson(myFormJson)">js POST JSON</button>
+        </section>
+
+        <h4>6. Multiple Files - POST</h4>
+        <section>
+
+            <form
+                action="/submit/files"
+                method="POST"
+                enctype="multipart/form-data"
+                name="myPostFilesForm"
+                class="form-formatted"
+            >
+                <input type="file" name="myUploadedFiles" multiple>
+                <input type="submit">
+            </form>
+
+            <button onclick="postFiles(myPostFilesForm)">js POST a file</button>
+        </section>
+
+
+
+
+    </body>
+
+</html>
