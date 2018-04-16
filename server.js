@@ -21,7 +21,7 @@ app.use(formData.parse({
 
 
 
-app.all('/submit/urlencoded', (req,res,next) => {
+app.all('/submit', (req,res,next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     next();
@@ -66,6 +66,12 @@ app.post('/submit/files', (req, res, next) => {
     });
     res.end('Success post a file: ' + '\r\n' + JSON.stringify(result));
 });
+
+// app.get('/submit/cors', (req, res, next) => {
+//     console.log(req.body);
+//     // even though HTML form has "application/json" encryption type, it uses default "urlencoded"
+//     res.end('Success post JSON: ' + '\r\n' + JSON.stringify(req.body));
+// });
 
 
 

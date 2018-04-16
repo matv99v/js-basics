@@ -15,7 +15,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node_modules/.bin/nodemon server.js"
+    "start": "node_modules/.bin/nodemon server.js",
+    "start2": "node_modules/.bin/nodemon server2.js"
   },
   "author": "",
   "license": "ISC"

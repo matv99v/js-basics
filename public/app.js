@@ -130,3 +130,12 @@ function postFiles(formEl) {
     xhr.onreadystatechange = processResponse;
     xhr.send(formData);
 }
+
+function performCors() {
+    console.log('performCors');
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", 'http://localhost:8000/submit/cors');
+    xhr.onreadystatechange = processResponse;
+    xhr.send();
+}
