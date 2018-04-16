@@ -1,13 +1,27 @@
-// helpers
+// xhr helpers
 
 function processResponse() {
     if (this.readyState != 4) return; // process only the last state - DONE
     if (this.status == 200) {
-        alert(this.responseText);
+        console.log(this.responseText);
     } else {
-        alert(this.status + ': ' + this.statusText);
+        console.log(this.status + ': ' + this.statusText);
     }
 }
+
+function onprogressHandler(event) {
+    console.log(event.loaded + ' / ' + event.total);
+}
+
+function onloadHandler() {
+    console.log("success");
+}
+
+function onerrorHandler() {
+    console.log("error " + this.status);
+}
+
+// form helpers
 
 function getFormData(formEl) {
     const formData = new FormData(formEl);
@@ -126,6 +140,11 @@ function postFiles(formEl) {
     const formData = new FormData(formEl);
 
     const xhr = new XMLHttpRequest();
+
+    xhr.upload.onprogress = onprogressHandler;
+    xhr.onload = onloadHandler;
+    xhr.onerror = onerrorHandler;
+
     xhr.open("POST", url);
     xhr.onreadystatechange = processResponse;
     xhr.send(formData);
