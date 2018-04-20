@@ -3,11 +3,16 @@ const express = require('express');
 const morgan = require('morgan');
 const formData = require("express-form-data");
 const bodyParser = require('body-parser');
+const WebSocketServer = new require('ws');
 
-const hostname = 'localhost';
+
+const hostname = '0.0.0.0';
 const port = 7000;
 
 const app = express();
+const server = http.createServer(app);
+
+
 app.use(morgan('dev')); // using morgan logger in 'dev' mode
 app.use(express.static(__dirname + '/public')); // serving static pages from folder
 app.use(bodyParser.json());
@@ -67,16 +72,35 @@ app.post('/submit/files', (req, res, next) => {
     res.end('Success post a file: ' + '\r\n' + JSON.stringify(result));
 });
 
-// app.get('/submit/cors', (req, res, next) => {
-//     console.log(req.body);
-//     // even though HTML form has "application/json" encryption type, it uses default "urlencoded"
-//     res.end('Success post JSON: ' + '\r\n' + JSON.stringify(req.body));
-// });
+
+// WEBSOCKETS
+// connected clients
+const clients = {};
+
+const webSocketServer = new WebSocketServer.Server({ server });
+
+webSocketServer.on('connection', function(ws, req) {
+    const id = req.connection.remoteAddress + ':' + req.connection.remotePort;
+    clients[id] = ws;
+
+    console.log("A new websocket connection established: " + id);
+
+    ws.on('message', function(message) {
+        console.log('A new message recieved: ' + message);
+
+        for (const key in clients) {
+            clients[key].send(message);
+        }
+    });
+
+    ws.on('close', function() {
+        console.log('Connection has been closed: ' + id);
+        delete clients[id];
+    });
+});
 
 
 
-
-const server = http.createServer(app);
 server.listen(port, hostname, () => {
     console.log(`server running at http://${hostname}:${port}`);
 });

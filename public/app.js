@@ -43,7 +43,7 @@ function buildMultipartObj(obj) {
     const boundaryMiddle = '--' + boundary + '\r\n';
     const boundaryLast = '--' + boundary + '--\r\n'
     const body = ['\r\n'];
-    for (var key in obj) {
+    for (let key in obj) {
       body.push('Content-Disposition: form-data; name="' + key + '"\r\n\r\n' + obj[key] + '\r\n');
     }
     return {
@@ -157,4 +157,46 @@ function performCors() {
     xhr.open("GET", 'http://localhost:8000/submit/cors');
     xhr.onreadystatechange = processResponse;
     xhr.send();
+}
+
+
+
+// WebSocket
+const hosts = ['0.0.0.0', '192.168.1.215'];
+const path = `ws://${hosts[1]}:7000`;
+console.log(path);
+const socket = new WebSocket(path);
+
+document.forms.publish.onsubmit = function() {
+    const outgoingMessage = this.message.value;
+    socket.send(outgoingMessage);
+    return false;
+};
+
+socket.onmessage = function(event) {
+    const incomingMessage = event.data;
+    showMessage(incomingMessage);
+};
+
+socket.onopen = function() {
+    console.log("Connection established");
+};
+
+socket.onerror = function(error) {
+    console.log("Ошибка " + error.message);
+};
+
+socket.onclose = function(event) {
+    if (event.wasClean) {
+        console.log('Connection was closed clean');
+    } else {
+        console.log('Connection was interrupted');
+    }
+    console.log('Code: ' + event.code + ' reason: ' + event.reason);
+};
+
+function showMessage(message) {
+    const messageElem = document.createElement('div');
+    messageElem.appendChild(document.createTextNode(message));
+    document.getElementById('subscribe').appendChild(messageElem);
 }
