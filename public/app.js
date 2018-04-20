@@ -200,3 +200,15 @@ function showMessage(message) {
     messageElem.appendChild(document.createTextNode(message));
     document.getElementById('subscribe').appendChild(messageElem);
 }
+
+
+// JSONp
+function performJsonp(src) {
+    var elem = document.createElement("script");
+    elem.src = src;
+    document.head.appendChild(elem);
+}
+
+function func123(data) {
+    console.log(data);
+}

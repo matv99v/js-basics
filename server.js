@@ -100,6 +100,17 @@ webSocketServer.on('connection', function(ws, req) {
 });
 
 
+// JSONp
+app.get('/submit/getdata', (req, res, next) => {
+    const somedata = { name: "Вася", age: 25 };
+    const strData = JSON.stringify(somedata);
+    const cbName = req.query.callback;
+    const wrappedData = `${cbName}(${strData});`
+    console.log(wrappedData);
+    res.end(wrappedData);
+});
+
+
 
 server.listen(port, hostname, () => {
     console.log(`server running at http://${hostname}:${port}`);
